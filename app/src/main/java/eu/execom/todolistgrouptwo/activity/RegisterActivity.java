@@ -2,7 +2,6 @@ package eu.execom.todolistgrouptwo.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.EditText;
 
 import org.androidannotations.annotations.Background;
@@ -12,10 +11,14 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.EditorAction;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.rest.spring.annotations.RestService;
+import org.springframework.web.client.RestClientException;
 
 import eu.execom.todolistgrouptwo.R;
+import eu.execom.todolistgrouptwo.api.RestApi;
 import eu.execom.todolistgrouptwo.database.wrapper.UserDAOWrapper;
 import eu.execom.todolistgrouptwo.model.User;
+import eu.execom.todolistgrouptwo.model.dto.RegisterDTO;
 
 @EActivity(R.layout.activity_register)
 public class RegisterActivity extends AppCompatActivity {
@@ -32,6 +35,9 @@ public class RegisterActivity extends AppCompatActivity {
     @ViewById
     EditText password;
 
+    @RestService
+    RestApi restApi;
+
     @EditorAction(R.id.password)
     @Click
     void register() {
@@ -45,10 +51,22 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Background
     void registerUser(User user) {
-        final boolean userCreated = userDAOWrapper.create(user);
+        boolean succesfulRegister;
+        try {
+            final RegisterDTO registerDTO = new RegisterDTO(user.getUsername(), user.getPassword(), user.getPassword());
+            restApi.register(registerDTO);
+            succesfulRegister = true;
+        } catch (RestClientException e) {
+            succesfulRegister = false;
+        }
 
-        if (userCreated) {
-            login(user);
+
+        if (succesfulRegister) {
+            final Intent intent = new Intent();
+            intent.putExtra("username", user.getUsername());
+            intent.putExtra("password", user.getPassword());
+            setResult(RESULT_OK, intent);
+            finish();
         } else {
             showRegisterError();
         }

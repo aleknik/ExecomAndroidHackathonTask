@@ -5,6 +5,7 @@ import org.androidannotations.rest.spring.annotations.Get;
 import org.androidannotations.rest.spring.annotations.Header;
 import org.androidannotations.rest.spring.annotations.Post;
 import org.androidannotations.rest.spring.annotations.Rest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
@@ -14,6 +15,7 @@ import java.util.List;
 import eu.execom.todolistgrouptwo.api.interceptor.AuthenticationInterceptor;
 import eu.execom.todolistgrouptwo.constant.ApiConstants;
 import eu.execom.todolistgrouptwo.model.Task;
+import eu.execom.todolistgrouptwo.model.dto.RegisterDTO;
 import eu.execom.todolistgrouptwo.model.dto.TokenContainerDTO;
 
 
@@ -31,4 +33,7 @@ public interface RestApi {
 
     @Post(value = ApiConstants.TASK_PATH)
     Task createTask(@Body Task task);
+
+    @Post(ApiConstants.REGISTER_PATH)
+    ResponseEntity register(@Body RegisterDTO registerDTO);
 }

@@ -2,6 +2,7 @@ package eu.execom.todolistgrouptwo.view;
 
 import android.content.Context;
 import android.support.design.widget.TextInputEditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,6 +30,9 @@ public class TaskItemView extends LinearLayout {
     @ViewById
     TextView description;
 
+    @ViewById
+    ImageView status;
+
     public TaskItemView(Context context) {
         super(context);
     }
@@ -42,6 +46,11 @@ public class TaskItemView extends LinearLayout {
     public TaskItemView bind(Task task) {
         title.setText(task.getTitle());
         description.setText(task.getDescription());
+        if (task.isFinished())
+            status.setImageResource(R.drawable.ic_check_black_24dp);
+        else
+            status.setImageDrawable(null);
+
 
         return this;
     }

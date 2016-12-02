@@ -12,6 +12,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.rest.spring.annotations.RestService;
@@ -44,19 +45,14 @@ public class TaskDetailsActivity extends AppCompatActivity {
     @RestService
     RestApi restApi;
 
-    private Long id;
+    @Extra
+    Long taskId;
 
     @AfterViews
     @Background
     void GetTask() {
-        Intent intent = getIntent();
-        Long taskId = intent.getLongExtra("task_id", 0);
         Task task = restApi.getTask(taskId);
-        id = taskId;
-
         initData(task);
-
-
     }
 
     @UiThread
@@ -66,10 +62,21 @@ public class TaskDetailsActivity extends AppCompatActivity {
         completed.setChecked(task.isFinished());
     }
 
+    boolean checkErrors() {
+        if (title.getText().toString().trim().equals("")) {
+            title.setError(getString(R.string.empty_title_error));
+            return true;
+        }
+        else
+            return false;
+    }
+
 
     @Click
     void ok() {
-        generateResult(false);
+        if (!checkErrors()) {
+            generateResult(false);
+        }
     }
 
     @Background
@@ -77,7 +84,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
         final Task task = new Task(title.getText().toString(),
                 description.getText().toString());
         task.setFinished(completed.isChecked());
-        task.setId(id);
+        task.setId(taskId);
         final Intent intent = new Intent();
         final Gson gson = new Gson();
         intent.putExtra("task", gson.toJson(task));
@@ -91,6 +98,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
         finish();
     }
 
+
     @Click
     void cancel() {
         finish();
@@ -99,6 +107,8 @@ public class TaskDetailsActivity extends AppCompatActivity {
     @Click
     void remove() {
         generateResult(true);
+
+
     }
 
 

@@ -188,7 +188,7 @@ public class HomeActivity extends AppCompatActivity {
     void listViewItemClicked(Task task) {
         Log.i(TAG, "Task clicked!");
         Intent intent = new Intent(this, TaskDetailsActivity_.class);
-        intent.putExtra("task_id", task.getId());
+        intent.putExtra("taskId", task.getId());
         startActivityForResult(intent, TASK_DETAILS_REQUEST_CODE);
     }
 

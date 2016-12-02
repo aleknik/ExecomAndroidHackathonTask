@@ -1,11 +1,6 @@
 package eu.execom.todolistgrouptwo.model;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class User {
 

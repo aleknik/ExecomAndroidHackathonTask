@@ -1,7 +1,6 @@
 package eu.execom.todolistgrouptwo.view;
 
 import android.content.Context;
-import android.support.design.widget.TextInputEditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;

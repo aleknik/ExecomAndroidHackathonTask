@@ -3,8 +3,6 @@ package eu.execom.todolistgrouptwo.activity;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -39,12 +37,25 @@ public class AddTaskActivity extends AppCompatActivity {
      */
     @Click
     void saveTask() {
-        final Task task = new Task(title.getText().toString(),
-                description.getText().toString());
-        final Intent intent = new Intent();
-        final Gson gson = new Gson();
-        intent.putExtra("task", gson.toJson(task));
-        setResult(RESULT_OK, intent);
-        finish();
+        if (!checkErrors())
+        {
+            final Task task = new Task(title.getText().toString(),
+                    description.getText().toString());
+            final Intent intent = new Intent();
+            final Gson gson = new Gson();
+            intent.putExtra("task", gson.toJson(task));
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+
+    }
+
+    boolean checkErrors() {
+        if (title.getText().toString().trim().equals("")) {
+            title.setError(getString(R.string.empty_title_error));
+            return true;
+        }
+        else
+            return false;
     }
 }

@@ -18,7 +18,6 @@ import org.androidannotations.rest.spring.annotations.RestService;
 
 import eu.execom.todolistgrouptwo.R;
 import eu.execom.todolistgrouptwo.api.RestApi;
-import eu.execom.todolistgrouptwo.database.wrapper.UserDAOWrapper;
 import eu.execom.todolistgrouptwo.model.dto.TokenContainerDTO;
 import eu.execom.todolistgrouptwo.util.NetworkingUtils;
 
@@ -29,8 +28,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG =
             LoginActivity.class.getSimpleName();
 
-    @Bean
-    UserDAOWrapper userDAOWrapper;
 
     @ViewById
     EditText username;

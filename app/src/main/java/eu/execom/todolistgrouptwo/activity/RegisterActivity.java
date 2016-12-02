@@ -16,15 +16,11 @@ import org.springframework.web.client.RestClientException;
 
 import eu.execom.todolistgrouptwo.R;
 import eu.execom.todolistgrouptwo.api.RestApi;
-import eu.execom.todolistgrouptwo.database.wrapper.UserDAOWrapper;
 import eu.execom.todolistgrouptwo.model.User;
 import eu.execom.todolistgrouptwo.model.dto.RegisterDTO;
 
 @EActivity(R.layout.activity_register)
 public class RegisterActivity extends AppCompatActivity {
-
-    @Bean
-    UserDAOWrapper userDAOWrapper;
 
     @ViewById
     EditText name;

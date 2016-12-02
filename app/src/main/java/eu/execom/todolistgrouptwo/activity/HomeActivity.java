@@ -29,9 +29,8 @@ import java.util.List;
 import eu.execom.todolistgrouptwo.R;
 import eu.execom.todolistgrouptwo.adapter.TaskAdapter;
 import eu.execom.todolistgrouptwo.api.RestApi;
-import eu.execom.todolistgrouptwo.database.wrapper.TaskDAOWrapper;
-import eu.execom.todolistgrouptwo.database.wrapper.UserDAOWrapper;
 import eu.execom.todolistgrouptwo.model.Task;
+import eu.execom.todolistgrouptwo.model.dao.TaskDAO;
 import eu.execom.todolistgrouptwo.preference.UserPreferences_;
 
 /**
@@ -77,11 +76,9 @@ public class HomeActivity extends AppCompatActivity {
     @Bean
     TaskAdapter adapter;
 
-    @Bean
-    UserDAOWrapper userDAOWrapper;
 
     @Bean
-    TaskDAOWrapper taskDAOWrapper;
+    TaskDAO taskDAO;
 
     @Pref
     UserPreferences_ userPreferences;
@@ -97,7 +94,7 @@ public class HomeActivity extends AppCompatActivity {
             return;
         }
 
-//        tasks = taskDAOWrapper.findByUser(user);
+//        tasks = taskDAO.findByUser(user);
         try {
             tasks = restApi.getAllTasks();
         } catch (RestClientException e) {
@@ -159,7 +156,7 @@ public class HomeActivity extends AppCompatActivity {
             final Task newTask = gson.fromJson(task, Task.class);
 
             try {
-                final Task newNewTask = taskDAOWrapper.create(newTask);
+                final Task newNewTask = taskDAO.create(newTask);
                 onTaskCreated(newNewTask);
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
@@ -205,7 +202,7 @@ public class HomeActivity extends AppCompatActivity {
 
             if (remove) {
                 try {
-                    final Task newNewTask = taskDAOWrapper.remove(newTask.getId());
+                    final Task newNewTask = taskDAO.remove(newTask.getId());
                     onTaskRemoved(newNewTask);
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage(), e);
@@ -213,7 +210,7 @@ public class HomeActivity extends AppCompatActivity {
             } else {
 
                 try {
-                    final Task newNewTask = taskDAOWrapper.update(newTask);
+                    final Task newNewTask = taskDAO.update(newTask);
                     onTaskUpdated(newNewTask);
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage(), e);

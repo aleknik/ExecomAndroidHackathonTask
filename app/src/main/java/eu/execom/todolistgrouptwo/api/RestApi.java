@@ -1,9 +1,12 @@
 package eu.execom.todolistgrouptwo.api;
 
 import org.androidannotations.rest.spring.annotations.Body;
+import org.androidannotations.rest.spring.annotations.Delete;
 import org.androidannotations.rest.spring.annotations.Get;
 import org.androidannotations.rest.spring.annotations.Header;
+import org.androidannotations.rest.spring.annotations.Path;
 import org.androidannotations.rest.spring.annotations.Post;
+import org.androidannotations.rest.spring.annotations.Put;
 import org.androidannotations.rest.spring.annotations.Rest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -34,6 +37,15 @@ public interface RestApi {
     @Post(value = ApiConstants.TASK_PATH)
     Task createTask(@Body Task task);
 
-    @Post(ApiConstants.REGISTER_PATH)
+    @Post(value = ApiConstants.REGISTER_PATH)
     ResponseEntity register(@Body RegisterDTO registerDTO);
+
+    @Put(value = ApiConstants.TASK_PATH + "/{id}" )
+    Task updateTask(@Body Task task, @Path long id);
+
+    @Get(value = ApiConstants.TASK_PATH + "/{id}")
+    Task getTask(@Path long id);
+
+    @Delete(value = ApiConstants.TASK_PATH + "/{id}")
+    Task removeTask(@Path long id);
 }

@@ -1,11 +1,11 @@
 package eu.execom.todolistgrouptwo.activity;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -14,6 +14,7 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
@@ -31,7 +32,6 @@ import eu.execom.todolistgrouptwo.api.RestApi;
 import eu.execom.todolistgrouptwo.database.wrapper.TaskDAOWrapper;
 import eu.execom.todolistgrouptwo.database.wrapper.UserDAOWrapper;
 import eu.execom.todolistgrouptwo.model.Task;
-import eu.execom.todolistgrouptwo.model.User;
 import eu.execom.todolistgrouptwo.preference.UserPreferences_;
 
 /**
@@ -50,7 +50,8 @@ public class HomeActivity extends AppCompatActivity {
      * Used for identifying results from different activities.
      */
     protected static final int ADD_TASK_REQUEST_CODE = 42;
-    protected static final int LOGIN_REQUEST_CODE = 420; // BLAZE IT
+    protected static final int LOGIN_REQUEST_CODE = 420;
+    public static final int TASK_DETAILS_REQUEST_CODE = 33;
 
     /**
      * Tasks are kept in this list during a user session.
@@ -147,7 +148,7 @@ public class HomeActivity extends AppCompatActivity {
      * Called when the {@link AddTaskActivity AddTaskActivity} finishes.
      *
      * @param resultCode Indicates whether the activity was successful.
-     * @param task         The new task.
+     * @param task       The new task.
      */
     @OnActivityResult(ADD_TASK_REQUEST_CODE)
     @Background
@@ -183,7 +184,62 @@ public class HomeActivity extends AppCompatActivity {
     @OptionsItem(R.id.item_logout)
     void logout() {
         userPreferences.accessToken().remove();
-        LoginActivity_.intent(this).start();
-        finish();
+        LoginActivity_.intent(this).startForResult(LOGIN_REQUEST_CODE);
+    }
+
+    @ItemClick
+    void listViewItemClicked(Task task) {
+        Log.i(TAG, "Task clicked!");
+        Intent intent = new Intent(this, TaskDetailsActivity_.class);
+        intent.putExtra("task_id", task.getId());
+        startActivityForResult(intent, TASK_DETAILS_REQUEST_CODE);
+    }
+
+    @OnActivityResult(TASK_DETAILS_REQUEST_CODE)
+    @Background
+    void onTaskUpdate(int resultCode, @OnActivityResult.Extra String task,
+                      @OnActivityResult.Extra boolean remove) {
+        if (resultCode == RESULT_OK) {
+            final Gson gson = new Gson();
+            final Task newTask = gson.fromJson(task, Task.class);
+
+            if (remove) {
+                try {
+                    final Task newNewTask = taskDAOWrapper.remove(newTask.getId());
+                    onTaskRemoved(newNewTask);
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            } else {
+
+                try {
+                    final Task newNewTask = taskDAOWrapper.update(newTask);
+                    onTaskUpdated(newNewTask);
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+        }
+    }
+
+    @UiThread
+    void onTaskRemoved(Task newNewTask) {
+        tasks.remove(newNewTask);
+        adapter.setTasks(tasks);
+    }
+
+    @UiThread
+    void onTaskUpdated(Task task) {
+        for (Task t : tasks) {
+            if (t.equals(task)) {
+                t.setTitle(task.getTitle());
+                t.setDescription(task.getDescription());
+                t.setFinished(task.isFinished());
+
+                adapter.updateTask(task);
+                return;
+            }
+        }
     }
 }

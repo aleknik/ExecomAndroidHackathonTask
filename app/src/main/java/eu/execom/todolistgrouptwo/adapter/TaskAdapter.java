@@ -67,4 +67,17 @@ public class TaskAdapter extends BaseAdapter {
         tasks.add(task);
         notifyDataSetChanged();
     }
+
+    public void updateTask(Task task) {
+        for (Task t : tasks) {
+            if (t.equals(task)){
+                t.setTitle(task.getTitle());
+                t.setDescription(task.getDescription());
+                t.setFinished(task.isFinished());
+
+                notifyDataSetChanged();
+                return;
+            }
+        }
+    }
 }

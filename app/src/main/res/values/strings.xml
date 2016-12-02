@@ -9,4 +9,8 @@
     <string name="register">Register</string>
     <string name="name">Name</string>
     <string name="log_out">Log out</string>
+    <string name="task_completed">Task completed</string>
+    <string name="ok">Ok</string>
+    <string name="remove">Remove</string>
+    <string name="cancel">Cancel</string>
 </resources>

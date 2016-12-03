@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ToDoListGroupTwo</string>
+    <string name="app_name">To-Do List</string>
     <string name="description">Description</string>
     <string name="title">Title</string>
     <string name="save_task">Save task</string>

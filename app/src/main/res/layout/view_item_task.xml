@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="16sp">
+    android:padding="@dimen/item_task_padding">
 
     <ImageView
         android:id="@+id/status"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_width="@dimen/check_image_size"
+        android:layout_height="@dimen/check_image_size" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textSize="24sp" />
+            android:textSize="@dimen/text_size" />
 
         <TextView
             android:id="@+id/description"

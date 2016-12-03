@@ -96,7 +96,7 @@ public class HomeActivity extends AppCompatActivity {
 
 //        tasks = taskDAO.findByUser(user);
         try {
-            tasks = restApi.getAllTasks();
+            tasks = taskDAO.getTasks();
         } catch (RestClientException e) {
             Log.e(TAG, e.getMessage(), e);
         }

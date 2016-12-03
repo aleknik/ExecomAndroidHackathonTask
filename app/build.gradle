@@ -52,9 +52,6 @@ dependencies {
     // https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-android
     compile group: 'com.j256.ormlite', name: 'ormlite-android', version: '5.0'
 
-    // Stetho
-    compile 'com.facebook.stetho:stetho:1.4.1'
-
     // Support
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'

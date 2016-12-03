@@ -22,10 +22,7 @@ import eu.execom.todolistgrouptwo.model.dto.RegisterDTO;
 public class RegisterActivity extends AppCompatActivity {
 
     @ViewById
-    EditText name;
-
-    @ViewById
-    EditText username;
+    EditText email;
 
     @ViewById
     EditText password;
@@ -36,10 +33,9 @@ public class RegisterActivity extends AppCompatActivity {
     @EditorAction(R.id.password)
     @Click
     void register() {
-        final String name = this.name.getText().toString();
-        final String username = this.username.getText().toString();
+        final String email = this.email.getText().toString();
         final String password = this.password.getText().toString();
-        final User user = new User(name, username, password);
+        final User user = new User(email, password);
 
         registerUser(user);
     }
@@ -48,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
     void registerUser(User user) {
         boolean succesfulRegister;
         try {
-            final RegisterDTO registerDTO = new RegisterDTO(user.getUsername(), user.getPassword(), user.getPassword());
+            final RegisterDTO registerDTO = new RegisterDTO(user.getEmail(), user.getPassword(), user.getPassword());
             restApi.register(registerDTO);
             succesfulRegister = true;
         } catch (RestClientException e) {
@@ -58,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (succesfulRegister) {
             final Intent intent = new Intent();
-            intent.putExtra("username", user.getUsername());
+            intent.putExtra("email", user.getEmail());
             intent.putExtra("password", user.getPassword());
             setResult(RESULT_OK, intent);
             finish();
@@ -78,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     @UiThread
     void showRegisterError() {
-        username.setError("Username already exists.");
+        email.setError("email already exists.");
     }
 
 }

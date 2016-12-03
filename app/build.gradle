@@ -41,8 +41,8 @@ dependencies {
     // Android Annotations
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
-    apt "org.androidannotations:ormlite:$AAVersion"
-    compile "org.androidannotations:ormlite-api:$AAVersion"
+
+    //rest
     apt "org.androidannotations:rest-spring:$AAVersion"
     compile "org.androidannotations:rest-spring-api:$AAVersion"
 

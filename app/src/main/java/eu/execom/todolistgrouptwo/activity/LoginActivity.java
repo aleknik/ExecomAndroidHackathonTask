@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     @ViewById
-    EditText username;
+    EditText email;
 
     @ViewById
     EditText password;
@@ -40,10 +40,10 @@ public class LoginActivity extends AppCompatActivity {
     @EditorAction(R.id.password)
     @Click
     void login() {
-        final String username = this.username.getText().toString();
+        final String email = this.email.getText().toString();
         final String password = this.password.getText().toString();
 
-        tryLogin(username, password);
+        tryLogin(email, password);
     }
 
     @Background
@@ -83,10 +83,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @OnActivityResult(value = REGISTER_RESULT)
-    void loginUser(int resultCode, @OnActivityResult.Extra("username") String username,
+    void loginUser(int resultCode, @OnActivityResult.Extra("email") String email,
                    @OnActivityResult.Extra("password") String password) {
         if (resultCode == RESULT_OK) {
-            tryLogin(username, password);
+            tryLogin(email, password);
         }
     }
 

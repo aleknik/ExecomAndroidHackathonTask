@@ -1,27 +1,18 @@
 package eu.execom.todolistgrouptwo.model;
 
-import com.j256.ormlite.field.DatabaseField;
-
 public class User {
 
-    @DatabaseField(generatedId = true)
     private long id;
 
-    @DatabaseField(canBeNull = false)
-    private String name;
+    private String email;
 
-    @DatabaseField(canBeNull = false, unique = true)
-    private String username;
-
-    @DatabaseField(canBeNull = false)
     private String password;
 
     public User() {
     }
 
-    public User(String name, String username, String password) {
-        this.name = name;
-        this.username = username;
+    public User(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 
@@ -29,8 +20,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "password='" + password + '\'' +
-                ", username='" + username + '\'' +
-                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
                 ", id=" + id +
                 '}';
     }
@@ -43,20 +33,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

@@ -93,8 +93,6 @@ public class HomeActivity extends AppCompatActivity {
             LoginActivity_.intent(this).startForResult(LOGIN_REQUEST_CODE);
             return;
         }
-
-//        tasks = taskDAO.findByUser(user);
         try {
             tasks = taskDAO.getTasks();
         } catch (RestClientException e) {
@@ -151,7 +149,6 @@ public class HomeActivity extends AppCompatActivity {
     @Background
     void onResult(int resultCode, @OnActivityResult.Extra String task) {
         if (resultCode == RESULT_OK) {
-//            Toast.makeText(this, task, Toast.LENGTH_SHORT).show();
             final Gson gson = new Gson();
             final Task newTask = gson.fromJson(task, Task.class);
 

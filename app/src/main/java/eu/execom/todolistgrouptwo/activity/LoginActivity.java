@@ -48,8 +48,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @Background
     void tryLogin(String username, String password) {
-        //final User user = userDAOWrapper.findByUsernameAndPassword(username, password);
-
         try {
             final TokenContainerDTO tokenContainerDTO =
                     restApi.login(NetworkingUtils.packUserCredentials(username, password));
@@ -59,14 +57,6 @@ public class LoginActivity extends AppCompatActivity {
             showLoginError();
             Log.e(TAG, e.getMessage(), e);
         }
-
-        /*
-        if (user == null) {
-            showLoginError();
-        } else {
-            loginSuccess(user.getId());
-        }
-        */
     }
 
     @UiThread
